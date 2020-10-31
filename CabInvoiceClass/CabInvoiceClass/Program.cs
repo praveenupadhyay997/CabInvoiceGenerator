@@ -16,7 +16,9 @@ namespace CabInvoiceClass
             Console.WriteLine("Welcome to the Cab Invoice Generator");
             Console.WriteLine("====================================");
             /// Creating the instance of the invoice generator class
-            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(RideType.NORMAL);
+            InvoiceGenerator invoiceGenerator = new InvoiceGenerator(RideType.PREMIUM);
+            if(invoiceGenerator.rideType.Equals(RideType.PREMIUM))
+                Console.WriteLine("Welcome to Premium rides....");
             /// Creating the instance of the ride repository class
             RideRepository repository = new RideRepository();
             /// Passing the user ID as a variable
@@ -30,7 +32,9 @@ namespace CabInvoiceClass
             InvoiceSummary invoiceSummary = invoiceGenerator.CalculateFare(mappedData);
             InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(30.0, 2, 15.0);
             /// Comparing the invoice summary
-            Console.WriteLine(invoiceSummary.Equals(expectedInvoiceSummary));
+            Console.WriteLine(Convert.ToString("Total Fare = "+ invoiceSummary.totalFare)+ 
+                "\nTotal Number of Rides = " + invoiceSummary.length+ 
+                "\nAverage Fare of the ride = "+Convert.ToString(invoiceSummary.averageFare));
         }
     }
 }
