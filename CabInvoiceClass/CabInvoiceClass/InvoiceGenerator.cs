@@ -76,6 +76,8 @@ namespace CabInvoiceClass
         public InvoiceSummary CalculateFare(Ride[] rides)
         {
             double totalFare = 0;
+            /// Adding a variable to compute average fare
+            double averageFare = 0;
             /// Exception handling for the invalid  distance and time
             try
             {
@@ -83,6 +85,8 @@ namespace CabInvoiceClass
                 {
                     totalFare += this.CalculateFare(ride.distance, ride.time);
                 }
+                /// Computing average fare = (total fare/ number of rides)
+                averageFare = (totalFare / rides.Length);
             }
             catch (CabInvoiceException)
             {
@@ -91,7 +95,8 @@ namespace CabInvoiceClass
                     throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides passed are null..");
                 }
             }
-            return new InvoiceSummary(totalFare, rides.Length);
+            /// Returning the invoice summary with average fare too
+            return new InvoiceSummary(totalFare, rides.Length, averageFare) ;
         }
     }
 
