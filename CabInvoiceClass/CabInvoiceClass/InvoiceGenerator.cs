@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NLog;
 
 namespace CabInvoiceClass
 {
@@ -20,7 +21,7 @@ namespace CabInvoiceClass
         /// Declaring the object of the class RideType so as to differentiate the data attributes as time and distance
         /// </summary>
         public RideType rideType;
-        private readonly RideRepository rideRepository;
+        private readonly RideRepository rideRepository= new RideRepository();
         /// <summary>
         /// Read-Only attributes acting as constant variable
         /// to be initialised at run time using a parameterised constructor
@@ -41,11 +42,30 @@ namespace CabInvoiceClass
         /// </summary>
         public InvoiceGenerator(RideType rideType)
         {
+            /// Initialising the Ride Type as Supported from the ride type class enum
             this.rideType = rideType;
-            this.rideRepository = new RideRepository();
-            this.MINIMUM_COST_PER_KM = 10;
-            this.COST_PER_KM = 1;
-            this.MINIMUM_FARE = 5;
+            /// Catching the Custom Exception for the invalid ride type- Unsupported from the cab service requirements 
+            try
+            {
+                /// Initialising hte default value for the NORMAL Ride Type
+                if (rideType.Equals(RideType.NORMAL))
+                {
+                    this.MINIMUM_COST_PER_KM = 10;
+                    this.COST_PER_KM = 1;
+                    this.MINIMUM_FARE = 5;
+                }
+                /// Initialising the default value for the PREMIUM Ride Type
+                else if (rideType.Equals(RideType.PREMIUM))
+                {
+                    this.MINIMUM_COST_PER_KM = 15;
+                    this.COST_PER_KM = 2;
+                    this.MINIMUM_FARE = 20;
+                }
+            }
+            catch (CabInvoiceException)
+            {
+                throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_RIDE_TYPE, "The Passed Ride Type is Not Valid");
+            }
         }
         /// <summary>
         /// Method to Compute the total fare of the cab journey when passed with distance and time
