@@ -31,5 +31,21 @@ namespace NUnitTestProjectForCabInvoiceGenerator
             /// Asserting with the expected value
             Assert.AreEqual(totalExpectedFare, totalActualFare);
         }
+        /// <summary>
+        /// TC 2- Given the distance and length of multiple rides and then get the summary object of invoice class
+        /// </summary>
+        [Test]
+        public void GivenMultipleRide_ReturnNumberOfRideAndAggregrateFare()
+        {
+            /// Arrange
+            invoiceGenerator = new InvoiceGenerator(RideType.NORMAL);
+            Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+            /// Act
+            InvoiceSummary invoiceSummary = invoiceGenerator.CalculateFare(rides);
+            var resultHashCode = invoiceSummary.GetHashCode();
+            InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(30.0, 2);
+            var resulExpectedHashCode = expectedInvoiceSummary.GetHashCode();
+            /// Assert
+        }
     }
 }
