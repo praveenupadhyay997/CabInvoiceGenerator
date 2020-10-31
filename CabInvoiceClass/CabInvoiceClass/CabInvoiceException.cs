@@ -24,6 +24,7 @@ namespace CabInvoiceClass
         {
             INVALID_DISTANCE,
             INVALID_TIME,
+            NULL_RIDES,
         }
         // Parameterised constructor to override the base class message
         public CabInvoiceException(ExceptionType innerException, string message) : base(message)
