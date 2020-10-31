@@ -47,5 +47,30 @@ namespace NUnitTestProjectForCabInvoiceGenerator
             var resulExpectedHashCode = expectedInvoiceSummary.GetHashCode();
             /// Assert
         }
+        /// <summary>
+        /// TC 4- Given the user Id for a particular customer using the Cab Service must return the invoice summary along woth ride list
+        /// </summary>
+        [Test]
+        public void GivenUserId_ShouldReturnInvoiceSummary()
+        {
+            /// Arrange - initialising the instance of the invoice generator class
+            invoiceGenerator = new InvoiceGenerator(RideType.NORMAL);
+            /// Creating the instance of the ride repository
+            RideRepository repository = new RideRepository();
+            /// Initialising the user ID
+            string userID = "abc@d.com";
+            /// Initialising the ride array with details of the ride or ride statistics
+            Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
+            /// Adding the ride data for the user to the ride repository
+            repository.AddRide(userID, rides);
+            /// Getting the ride data from the ride repository class using the user ID
+            Ride[] rideData = repository.GetRides(userID);
+            /// Getting the invoice summary when passing the ride Data
+            InvoiceSummary invoiceSummary = invoiceGenerator.CalculateFare(rideData);
+            /// Expected value of the Invoice Summary
+            InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(30.0, 2, 15.0);
+            /// Asserting the comparison between the expected and actual invoice summary
+            Assert.AreEqual(expectedInvoiceSummary, invoiceSummary);
+        }
     }
 }
