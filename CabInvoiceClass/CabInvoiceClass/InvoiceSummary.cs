@@ -19,10 +19,12 @@ namespace CabInvoiceClass
         /// </summary>
         /// <param name="totalFare"></param>
         /// <param name="length"></param>
-        public InvoiceSummary(double totalFare, int length)
+        /// <param name="averageFare"></param>
+        public InvoiceSummary(double totalFare, int length, double averageFare)
         {
             this.totalFare = totalFare;
             this.length = length;
+            this.averageFare = averageFare;
         }
         /// <summary>
         /// Over riding the Equals method so as to match the value of the object references
